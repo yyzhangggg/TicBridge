@@ -1,0 +1,94 @@
+{
+  "manifest_version": 3,
+  "name": "TicBridge",
+  "version": "0.1.0",
+  "description": "发布排期 + Google Drive 取最新素材 + TikTok/小红书/Bilibili 发布页自动填充",
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": ["storage", "identity", "scripting", "activeTab"],
+  "host_permissions": [
+    "https://www.googleapis.com/*",
+    "https://creator.douyin.com/*",
+    "https://www.tiktok.com/*",
+    "https://member.bilibili.com/*",
+    "https://creator.xiaohongshu.com/*",
+    "https://www.duitang.com/*",
+    "https://www.pinterest.com/*",
+    "https://www.instagram.com/*",
+    "https://studio.youtube.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://creator.douyin.com/*"],
+      "js": ["content-scripts/douyin.js"],
+      "run_at": "document_idle",
+      "type": "module"
+    },
+    {
+      "matches": ["https://www.tiktok.com/tiktokstudio/upload*", "https://www.tiktok.com/upload*"],
+      "js": ["content-scripts/tiktok.js"],
+      "run_at": "document_idle",
+      "type": "module"
+    },
+    {
+      "matches": ["https://member.bilibili.com/platform/upload*"],
+      "js": ["content-scripts/bilibili.js"],
+      "run_at": "document_idle",
+      "type": "module"
+    },
+    {
+      "matches": ["https://creator.xiaohongshu.com/publish/publish*"],
+      "js": ["content-scripts/rednote.js"],
+      "run_at": "document_idle",
+      "type": "module"
+    },
+    {
+      "matches": ["https://www.duitang.com/*"],
+      "js": ["content-scripts/duitang.js"],
+      "run_at": "document_idle",
+      "type": "module"
+    },
+    {
+      "matches": ["https://www.pinterest.com/*"],
+      "js": ["content-scripts/pinterest.js"],
+      "run_at": "document_idle",
+      "type": "module"
+    },
+    {
+      "matches": ["https://www.instagram.com/*"],
+      "js": ["content-scripts/instagram.js"],
+      "run_at": "document_idle",
+      "type": "module"
+    },
+    {
+      "matches": ["https://studio.youtube.com/*"],
+      "js": ["content-scripts/youtube.js"],
+      "run_at": "document_idle",
+      "type": "module"
+    }
+  ],
+  "oauth2": {
+    "client_id": "REPLACE_WITH_YOUR_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+    "scopes": [
+      "openid",
+      "email",
+      "profile",
+      "https://www.googleapis.com/auth/drive.readonly"
+    ]
+  }
+}

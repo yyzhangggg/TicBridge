@@ -1,0 +1,233 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  width: 380px;
+  max-height: 580px;
+  overflow-y: auto;
+  background: #f8f6f2;
+  color: #1a1816;
+  font-family: -apple-system, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+
+.hd {
+  padding: 12px 14px 8px;
+  border-bottom: 1px solid #e4dfd7;
+}
+.hd-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.hd-title { font-weight: 700; font-size: 14px; }
+.hd-sub { color: #8a8885; font-weight: 400; font-size: 11px; margin-left: 4px; }
+.lang-select {
+  flex-shrink: 0;
+  padding: 3px 6px;
+  border: 1px solid #cac5bc;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4a4845;
+  cursor: pointer;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 10px 14px 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.tab {
+  flex: 0 0 auto;
+  padding: 6px 6px;
+  border: 1px solid #e4dfd7;
+  background: #fff;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #4a4845;
+}
+.tab.on { background: #1a1816; color: #fff; border-color: #1a1816; }
+
+#pageContent { padding: 10px 14px 14px; }
+
+/* --- Profile page: one Drive-link block per platform --- */
+.drive-box {
+  background: #fff;
+  border: 1px solid #e4dfd7;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+.google-account-box {
+  background: #fff;
+  border: 1px solid #e4dfd7;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+.google-account-status { font-size: 11px; color: #4a4845; margin-bottom: 8px; }
+.field-label { font-weight: 700; font-size: 12px; margin-bottom: 6px; }
+.drive-box input[type="text"] {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #cac5bc;
+  border-radius: 6px;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+.positioning-input {
+  width: 100%;
+  resize: vertical;
+  padding: 6px 8px;
+  border: 1px solid #cac5bc;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: inherit;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.drive-box-actions { display: flex; align-items: center; gap: 8px; }
+.btn-secondary {
+  padding: 5px 10px;
+  border: 1px solid #cac5bc;
+  background: #fff;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.drive-status { font-size: 10px; color: #8a8885; line-height: 1.5; }
+.hint { font-size: 10px; color: #8a8885; line-height: 1.5; margin-top: 4px; }
+
+.goal-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #4a4845;
+  margin-bottom: 8px;
+}
+.goal-input {
+  width: 42px;
+  padding: 3px 4px;
+  border: 1px solid #cac5bc;
+  border-radius: 6px;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* --- Platform page: Mon-Sun day list --- */
+.goal-progress { font-size: 11px; color: #8a8885; margin-bottom: 8px; }
+.goal-progress.goal-met { color: #2a5425; font-weight: 700; }
+.week-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+.day-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #e4dfd7;
+  border-radius: 8px;
+  background: #fff;
+}
+.day-row.inactive { opacity: .55; }
+.day-row.selected { outline: 2px solid #1a1816; }
+.day-row .day-label { width: 30px; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+.day-row .day-content {
+  flex: 1;
+  font-size: 11px;
+  color: #4a4845;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: default;
+}
+.day-row.active .day-content { cursor: pointer; color: #2a5425; font-weight: 600; }
+.day-row select.time-select {
+  font-size: 11px;
+  border: 1px solid #cac5bc;
+  border-radius: 6px;
+  padding: 3px 4px;
+  flex-shrink: 0;
+}
+.day-row input[type="checkbox"] { width: 15px; height: 15px; flex-shrink: 0; }
+
+.detail {
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid #e4dfd7;
+  border-radius: 10px;
+}
+.detail-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.detail-label { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: #b4431c; font-weight: 700; }
+.detail-time { font-size: 10px; color: #8a8885; font-family: "DM Mono", monospace; }
+input.detail-title,
+textarea.detail-desc,
+input.detail-tags {
+  display: block;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 3px 5px;
+  margin: 0 -5px 6px;
+  font-family: inherit;
+  background: transparent;
+}
+input.detail-title:hover, textarea.detail-desc:hover, input.detail-tags:hover,
+input.detail-title:focus, textarea.detail-desc:focus, input.detail-tags:focus {
+  border-color: #cac5bc;
+  background: #f8f6f2;
+}
+input.detail-title:disabled, textarea.detail-desc:disabled, input.detail-tags:disabled {
+  color: #8a8885;
+}
+input.detail-title { font-weight: 700; font-size: 13px; }
+textarea.detail-desc { font-size: 12px; color: #4a4845; line-height: 1.5; resize: vertical; margin-bottom: 8px; }
+input.detail-tags { font-size: 10px; color: #4a4845; margin-bottom: 10px; }
+
+.btn-autofill {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #1a1816;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+.btn-autofill:hover { background: #2d4a8a; }
+.btn-autofill:disabled { background: #cac5bc; color: #8a8885; cursor: not-allowed; }
+#mapFieldsBtn { margin-top: 6px; width: 100%; }
+.autofill-status { font-size: 11px; color: #8a8885; margin-top: 6px; min-height: 14px; }
+.autofill-status.fail { color: #b4431c; font-weight: 700; }
+
+.empty-note { font-size: 11px; color: #8a8885; padding: 12px 4px; }
+
+/* --- Profile page: Theme block --- */
+.theme-box {
+  background: #fff;
+  border: 1px solid #e4dfd7;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+.swatch-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.swatch {
+  width: 26px;
+  height: 26px;
+  border-radius: 100px;
+  border: 1px solid #cac5bc;
+  cursor: pointer;
+  padding: 0;
+}
+.swatch.on { outline: 2px solid #1a1816; outline-offset: 2px; }
+
+/* --- Profile page: risk disclaimer footer --- */
+.disclaimer-box {
+  background: #fff;
+  border: 1px solid #e4dfd7;
+  border-top: 2px solid #b4431c;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
