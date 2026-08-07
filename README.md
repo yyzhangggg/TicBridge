@@ -50,7 +50,8 @@ TicBridge 是一个 Chrome 扩展，目标是把内容发布流程自动化：�
 
 - [extension/manifest.json](manifest.json) - Chrome extension manifest / Chrome 扩展清单
 - [extension/background.js](background.js) - background service worker for Google sign-in, Drive API calls, and message routing / 后台 service worker，负责 Google 登录、Drive API 调用、消息路由
-- [extension/content-scripts](content-scripts) - platform-specific content scripts / 各平台内容脚本
+- [extension/content-scripts](content-scripts) - platform-specific content scripts (ES modules, source only) / 各平台内容脚本（ES module 源码，需打包后才能加载）
+- extension/dist - bundled content scripts produced by `npm run build`, referenced by manifest.json; rebuild after editing content-scripts or lib / `npm run build` 生成的打包内容脚本，manifest.json 引用的是这里；修改 content-scripts 或 lib 后需重新构建
 - [extension/lib](lib) - shared utilities / 通用工具模块
 - [extension/popup](popup) - popup UI / 弹窗 UI
 - [plan](../plan) - publishing plans and content strategy documents / 发布计划和内容策略文档
@@ -58,14 +59,15 @@ TicBridge 是一个 Chrome 扩展，目标是把内容发布流程自动化：�
 
 ## Installation and Usage / 安装与使用
 
-1. Open Chrome and go to chrome://extensions / 打开 Chrome，进入 chrome://extensions
-2. Turn on Developer mode / 打开右上角“开发者模式”
-3. Click “Load unpacked” and select the [extension](.) folder / 点击“加载已解压的扩展程序”，选择 [extension](.) 文件夹
-4. Record the assigned extension ID for OAuth setup / 记录扩展 ID，用于创建 Google OAuth 客户端
-5. In Google Cloud Console, enable the Drive API and create an OAuth client ID for a Chrome extension / 在 Google Cloud Console 中启用 Drive API，并创建 Chrome 扩展的 OAuth 客户端 ID
-6. Paste the generated client ID into [extension/manifest.json](manifest.json) under oauth2.client_id / 将生成的 Client ID 填入 [extension/manifest.json](manifest.json) 的 oauth2.client_id
-7. Reload the extension, open the popup, and connect Google Drive / 重新加载扩展，打开扩展弹窗，登录 Google 并连接 Drive
-8. Configure a Drive folder link for each publishing target / 为每个平台配置对应的 Google Drive 文件夹链接
+1. Run `npm install` then `npm run build` inside [extension](.) to bundle the content scripts into `dist/` / 在 [extension](.) 目录下运行 `npm install` 和 `npm run build`，将内容脚本打包到 `dist/`（内容脚本用了 ES module import，Chrome 的 content_scripts 不支持模块加载，必须先打包成普通脚本）
+2. Open Chrome and go to chrome://extensions / 打开 Chrome，进入 chrome://extensions
+3. Turn on Developer mode / 打开右上角“开发者模式”
+4. Click “Load unpacked” and select the [extension](.) folder / 点击“加载已解压的扩展程序”，选择 [extension](.) 文件夹
+5. Record the assigned extension ID for OAuth setup / 记录扩展 ID，用于创建 Google OAuth 客户端
+6. In Google Cloud Console, enable the Drive API and create an OAuth client ID for a Chrome extension / 在 Google Cloud Console 中启用 Drive API，并创建 Chrome 扩展的 OAuth 客户端 ID
+7. Paste the generated client ID into [extension/manifest.json](manifest.json) under oauth2.client_id / 将生成的 Client ID 填入 [extension/manifest.json](manifest.json) 的 oauth2.client_id
+8. Reload the extension, open the popup, and connect Google Drive / 重新加载扩展，打开扩展弹窗，登录 Google 并连接 Drive
+9. Configure a Drive folder link for each publishing target / 为每个平台配置对应的 Google Drive 文件夹链接
 
 ## Notes / 说明
 
