@@ -16,17 +16,13 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "permissions": ["storage", "identity", "scripting", "activeTab"],
+  "permissions": ["storage", "identity", "activeTab"],
   "host_permissions": [
     "https://www.googleapis.com/*",
-    "https://creator.douyin.com/*",
-    "https://www.tiktok.com/*",
-    "https://member.bilibili.com/*",
-    "https://creator.xiaohongshu.com/*",
-    "https://www.duitang.com/*",
-    "https://www.pinterest.com/*",
-    "https://www.instagram.com/*",
-    "https://studio.youtube.com/*"
+    "https://www.tiktok.com/tiktokstudio/upload*",
+    "https://www.tiktok.com/upload*",
+    "https://member.bilibili.com/platform/upload*",
+    "https://creator.xiaohongshu.com/publish/publish*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -34,52 +30,19 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://creator.douyin.com/*"],
-      "js": ["content-scripts/douyin.js"],
-      "run_at": "document_idle",
-      "type": "module"
-    },
-    {
       "matches": ["https://www.tiktok.com/tiktokstudio/upload*", "https://www.tiktok.com/upload*"],
-      "js": ["content-scripts/tiktok.js"],
-      "run_at": "document_idle",
-      "type": "module"
+      "js": ["dist/content-scripts/tiktok.js"],
+      "run_at": "document_idle"
     },
     {
       "matches": ["https://member.bilibili.com/platform/upload*"],
-      "js": ["content-scripts/bilibili.js"],
-      "run_at": "document_idle",
-      "type": "module"
+      "js": ["dist/content-scripts/bilibili.js"],
+      "run_at": "document_idle"
     },
     {
       "matches": ["https://creator.xiaohongshu.com/publish/publish*"],
-      "js": ["content-scripts/rednote.js"],
-      "run_at": "document_idle",
-      "type": "module"
-    },
-    {
-      "matches": ["https://www.duitang.com/*"],
-      "js": ["content-scripts/duitang.js"],
-      "run_at": "document_idle",
-      "type": "module"
-    },
-    {
-      "matches": ["https://www.pinterest.com/*"],
-      "js": ["content-scripts/pinterest.js"],
-      "run_at": "document_idle",
-      "type": "module"
-    },
-    {
-      "matches": ["https://www.instagram.com/*"],
-      "js": ["content-scripts/instagram.js"],
-      "run_at": "document_idle",
-      "type": "module"
-    },
-    {
-      "matches": ["https://studio.youtube.com/*"],
-      "js": ["content-scripts/youtube.js"],
-      "run_at": "document_idle",
-      "type": "module"
+      "js": ["dist/content-scripts/rednote.js"],
+      "run_at": "document_idle"
     }
   ],
   "oauth2": {

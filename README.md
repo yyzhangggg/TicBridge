@@ -6,7 +6,7 @@
 
 <p align="center"><img src="divider.svg" width="100%" height="6" alt="" /></p>
 
-TicBridge is a Chrome extension designed to automate the flow of content publishing by pulling the latest assets from Google Drive and filling in the required fields on publishing pages across platforms such as Douyin, TikTok, Bilibili, Xiaohongshu, Instagram, Pinterest, and YouTube. It helps creators prepare publishing material more efficiently, reduce repetitive manual work, and keep the weekly schedule and publishing targets organized.
+TicBridge is a Chrome extension designed to automate the flow of content publishing by pulling the latest assets from Google Drive and filling in the required fields on publishing pages for TikTok, Bilibili, and Xiaohongshu (Rednote). It helps creators prepare publishing material more efficiently, reduce repetitive manual work, and keep the weekly schedule and publishing targets organized.
 
 The extension includes a popup-based workflow for managing publishing tasks, a background service worker for Google authentication and Drive access, and platform-specific content scripts that can inject content into upload forms. Each publishing target can be configured independently, so different content lines such as worship music videos, scripture wallpapers, portrait shoots, or daily photography can all be managed with their own Drive folders and scheduling rules.
 
@@ -22,7 +22,7 @@ The project is intended for publishing assistance and content workflow automatio
 
 <p align="center"><img src="divider.svg" width="100%" height="6" alt="" /></p>
 
-TicBridge 是一个 Chrome 扩展，目标是把内容发布流程自动化：它会从 Google Drive 读取最新素材，并在抖音、TikTok、Bilibili、小红书、Instagram、Pinterest、YouTube 等平台的发布页面中自动填充所需字段。它能帮助创作者更高效地准备素材、减少重复手动操作，并统一管理周排期与发布目标。
+TicBridge 是一个 Chrome 扩展，目标是把内容发布流程自动化：它会从 Google Drive 读取最新素材，并在 TikTok、Bilibili、小红书这三个平台的发布页面中自动填充所需字段。它能帮助创作者更高效地准备素材、减少重复手动操作，并统一管理周排期与发布目标。
 
 这个扩展包含一个弹窗式工作流，用来管理发布任务；同时有后台 service worker 负责 Google 登录与 Drive 访问；此外还提供各平台内容脚本，可以把素材和文案注入到上传表单中。每个发布目标都可以单独配置，因此像古筝赞美诗、经文壁纸、素人写真、日常摄影等不同内容线，都可以各自使用自己的 Google Drive 文件夹和排期规则。
 
