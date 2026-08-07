@@ -46,7 +46,7 @@
     }
   ],
   "oauth2": {
-    "client_id": "REPLACE_WITH_YOUR_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+    "client_id": "53673136120-9e6vd8aavs2b658ecabubvlec0q6v3hf.apps.googleusercontent.com",
     "scopes": [
       "openid",
       "email",

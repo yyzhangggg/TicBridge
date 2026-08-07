@@ -75,13 +75,15 @@ TicBridge 是一个 Chrome 扩展，目标是把内容发布流程自动化：�
 - For first-time use, run the field-mapping flow to verify the selectors on the target platform page / 首次使用建议先运行“映射字段”功能，确认页面选择器准确
 - The extension icon is now connected to a profile image asset in the icons folder, so it will appear in Chrome after reload / 扩展图标已经接入 icons 文件夹中的头像资源，重新加载后会在 Chrome 中显示
 
-## Disclaimer / 免责声明
+## Disclaimer / 免责声明 / Avertissement
 
 This extension is intended for workflow automation and publishing assistance. It does not bypass platform restrictions, violate platform policies, or auto-publish content without your review. Please use it responsibly and comply with the applicable platform terms and privacy requirements.
 
 此扩展用于辅助内容发布和素材管理，不用于绕过平台限制、规避平台规则或在未人工确认的情况下自动发布内容。请遵守相关平台条款和隐私要求，合理使用。
 
-### Privacy boundary / 隐私边界
+Cette extension est conçue pour automatiser le flux de travail et assister la publication. Elle ne contourne pas les restrictions des plateformes, ne viole pas leurs politiques et ne publie jamais automatiquement du contenu sans votre relecture. Merci de l'utiliser de façon responsable et de respecter les conditions d'utilisation et les exigences de confidentialité des plateformes concernées.
+
+### Privacy boundary / 隐私边界 / Limites de confidentialité
 
 The content scripts run on the TikTok, Bilibili, and Xiaohongshu upload pages listed in `manifest.json`'s `host_permissions`. They read the page DOM only to locate the file input, title, description, and tags fields, and to fill them with assets pulled from your own Google Drive folder. This processing happens entirely locally in the browser:
 
@@ -94,6 +96,12 @@ The content scripts run on the TikTok, Bilibili, and Xiaohongshu upload pages li
 - 扩展不会把页面 DOM 内容、表单字段值或文件内容记录日志、上传或发送到除 Google API（`googleapis.com`，用于 Drive 访问与 OAuth）以外的任何服务器。
 - 扩展没有接入任何分析、遥测或错误上报服务。除了你主动发起的 Drive/OAuth 请求外，你的上传内容、草稿或页面内容不会离开你的设备。
 - 如果未来加入日志或远程上报功能，绝不能包含页面/DOM 内容、文件内容或字段值，只能包含不涉及内容的操作信号（例如"自动填充成功/失败"），并且必须同步更新本节说明。
+
+Les content scripts s'exécutent uniquement sur les pages de publication TikTok, Bilibili et Xiaohongshu listées dans `host_permissions` du fichier `manifest.json`. Ils lisent le DOM de la page uniquement pour localiser le champ de fichier, le titre, la description et les tags, afin d'y insérer les fichiers provenant de votre propre dossier Google Drive. Ce traitement se déroule entièrement en local, dans le navigateur :
+
+- L'extension n'enregistre, ne transmet et ne télécharge le contenu du DOM, les valeurs des champs du formulaire ou le contenu des fichiers vers aucun serveur autre que les API Google (`googleapis.com`) nécessaires à l'accès à Drive et à l'authentification OAuth.
+- Aucun service d'analyse, de télémétrie ou de rapport d'erreurs n'est intégré. Rien concernant vos publications, brouillons ou contenus de page ne quitte votre machine, à l'exception des appels Drive/OAuth que vous initiez vous-même.
+- Si une fonctionnalité de journalisation ou de rapport distant devait être ajoutée à l'avenir, elle ne devra jamais inclure le contenu de la page, du DOM, des fichiers ou des champs — uniquement des signaux opérationnels sans contenu (par ex. « remplissage automatique réussi/échoué ») — et cette section devra être mise à jour en conséquence.
 
 ## License / 许可证
 
