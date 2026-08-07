@@ -206,6 +206,21 @@ input.detail-tags { font-size: 10px; color: #4a4845; margin-bottom: 10px; }
 .autofill-status { font-size: 11px; color: #8a8885; margin-top: 6px; min-height: 14px; }
 .autofill-status.fail { color: #b4431c; font-weight: 700; }
 
+.autofill-preview {
+  font-size: 11px;
+  color: #4a4845;
+  line-height: 1.5;
+  margin-top: 6px;
+  padding: 8px;
+  background: #f8f6f2;
+  border: 1px solid #e4dfd7;
+  border-radius: 8px;
+  word-break: break-word;
+}
+.autofill-confirm-actions { display: flex; gap: 6px; margin-top: 6px; }
+.autofill-confirm-actions .btn-autofill,
+.autofill-confirm-actions .btn-secondary { width: auto; flex: 1; margin-top: 0; }
+
 .empty-note { font-size: 11px; color: #8a8885; padding: 12px 4px; }
 
 /* --- Profile page: Theme block --- */

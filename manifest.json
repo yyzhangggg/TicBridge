@@ -16,7 +16,7 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "permissions": ["storage", "identity", "activeTab"],
+  "permissions": ["storage", "identity"],
   "host_permissions": [
     "https://www.googleapis.com/*",
     "https://www.tiktok.com/tiktokstudio/upload*",
@@ -46,7 +46,7 @@
     }
   ],
   "oauth2": {
-    "client_id": "53673136120-9e6vd8aavs2b658ecabubvlec0q6v3hf.apps.googleusercontent.com",
+    "client_id": "REPLACE_WITH_YOUR_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com",
     "scopes": [
       "openid",
       "email",

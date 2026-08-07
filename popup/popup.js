@@ -60,6 +60,13 @@ const TAB_LABEL_KEYS = {
   profile: "tabProfile"
 };
 
+const FIELD_NAME_KEYS = {
+  fileInput: "fieldNameFileInput",
+  title: "fieldNameTitle",
+  description: "fieldNameDescription",
+  tagInput: "fieldNameTagInput"
+};
+
 function renderStaticText() {
   document.getElementById("hdSub").textContent = t("appSubtitle");
   document.querySelectorAll(".tab").forEach((btn) => {
@@ -482,6 +489,11 @@ async function renderPlatformPage(platformId) {
     <button class="btn-autofill" id="autofillBtn">${t("autofillBtn")}</button>
     <button class="btn-secondary" id="mapFieldsBtn">${t("mapFieldsBtn")}</button>
     <div class="autofill-status" id="autofillStatus"></div>
+    <div class="autofill-preview" id="autofillPreview" style="display:none;"></div>
+    <div class="autofill-confirm-actions" id="autofillConfirmActions" style="display:none;">
+      <button class="btn-autofill" id="confirmFillBtn">${t("confirmFillBtn")}</button>
+      <button class="btn-secondary" id="cancelFillBtn">${t("cancelFillBtn")}</button>
+    </div>
   `;
   wrap.appendChild(detail);
 
@@ -516,14 +528,94 @@ async function renderPlatformPage(platformId) {
     selectedEntry = { ...selectedEntry, tags };
   });
 
+  // A preview taken at PREFLIGHT time is what confirmFillBtn actually sends —
+  // not whatever selectedEntry happens to be when the user clicks confirm — so
+  // the confirmation is always for the exact content that was previewed, even
+  // if the user edits the title/desc/tags fields in between.
+  let pendingEntry = null;
+
+  function resetAutofillPreview() {
+    pendingEntry = null;
+    document.getElementById("autofillPreview").style.display = "none";
+    document.getElementById("autofillPreview").replaceChildren();
+    document.getElementById("autofillConfirmActions").style.display = "none";
+  }
+
+  function renderPreflightIssues(statusEl, previewEl, issues) {
+    statusEl.classList.add("fail");
+    statusEl.textContent = t("preflightFailed");
+    previewEl.replaceChildren();
+    issues.forEach((issue) => {
+      const line = document.createElement("div");
+      const fieldLabel = t(FIELD_NAME_KEYS[issue.field]) || issue.field;
+      line.textContent = t("preflightFieldLine", fieldLabel, issue.reason);
+      previewEl.appendChild(line);
+    });
+    previewEl.style.display = "";
+  }
+
+  function renderPreflightPreview(statusEl, previewEl, preview) {
+    statusEl.classList.remove("fail");
+    statusEl.textContent = t("preflightOk");
+    previewEl.replaceChildren();
+    const titleLine = document.createElement("div");
+    titleLine.textContent = t("previewTitleLabel") + (preview.title || "");
+    previewEl.appendChild(titleLine);
+    const descLine = document.createElement("div");
+    descLine.textContent = t("previewDescLabel") + (preview.description || "");
+    previewEl.appendChild(descLine);
+    if (preview.tags?.length) {
+      const tagsLine = document.createElement("div");
+      tagsLine.textContent = t("previewTagsLabel") + preview.tags.join(", ");
+      previewEl.appendChild(tagsLine);
+    }
+    previewEl.style.display = "";
+  }
+
   document.getElementById("autofillBtn").addEventListener("click", async () => {
     if (!selectedEntry) return;
     const statusEl = document.getElementById("autofillStatus");
+    const previewEl = document.getElementById("autofillPreview");
+    const confirmActionsEl = document.getElementById("autofillConfirmActions");
+    resetAutofillPreview();
+    statusEl.classList.remove("fail");
+    statusEl.textContent = t("preflightRunning");
+    try {
+      const tab = await getActiveTabForPlatform(platformId);
+      const response = await chrome.tabs.sendMessage(tab.id, { type: "PREFLIGHT", entry: selectedEntry });
+      if (response?.ok) {
+        pendingEntry = { ...selectedEntry };
+        renderPreflightPreview(statusEl, previewEl, response.preview);
+        confirmActionsEl.style.display = "";
+      } else {
+        renderPreflightIssues(statusEl, previewEl, response?.issues || []);
+      }
+    } catch (err) {
+      statusEl.classList.add("fail");
+      statusEl.textContent = t("fillFailedNoTab");
+    }
+  });
+
+  document.getElementById("cancelFillBtn").addEventListener("click", () => {
+    resetAutofillPreview();
+    const statusEl = document.getElementById("autofillStatus");
+    statusEl.classList.remove("fail");
+    statusEl.textContent = "";
+  });
+
+  document.getElementById("confirmFillBtn").addEventListener("click", async () => {
+    if (!pendingEntry) return;
+    const statusEl = document.getElementById("autofillStatus");
+    const entryToFill = pendingEntry;
+    resetAutofillPreview();
     statusEl.classList.remove("fail");
     statusEl.textContent = t("filling");
     try {
       const tab = await getActiveTabForPlatform(platformId);
-      const response = await chrome.tabs.sendMessage(tab.id, { type: "AUTOFILL", entry: selectedEntry });
+      const response = await chrome.tabs.sendMessage(tab.id, {
+        type: "AUTOFILL",
+        entry: { ...entryToFill, confirmed: true }
+      });
       if (response?.ok) {
         statusEl.textContent = t("filled");
       } else {
@@ -537,6 +629,7 @@ async function renderPlatformPage(platformId) {
   });
 
   document.getElementById("mapFieldsBtn").addEventListener("click", async () => {
+    resetAutofillPreview();
     const statusEl = document.getElementById("autofillStatus");
     statusEl.classList.remove("fail");
     statusEl.textContent = t("mappingHint");
@@ -555,6 +648,7 @@ async function renderPlatformPage(platformId) {
     document.querySelectorAll(".day-row.selected").forEach((el) => el.classList.remove("selected"));
     rowEl.classList.add("selected");
     fillDetail(row.entry);
+    resetAutofillPreview();
     const statusEl = document.getElementById("autofillStatus");
     statusEl.textContent = "";
     statusEl.classList.remove("fail");

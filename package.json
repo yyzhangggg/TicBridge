@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "esbuild content-scripts/*.js --bundle --format=iife --outdir=dist/content-scripts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --runInBand"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/yyzhangggg/TicBridge/issues"
   },
