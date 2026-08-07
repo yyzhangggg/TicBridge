@@ -81,6 +81,20 @@ This extension is intended for workflow automation and publishing assistance. It
 
 此扩展用于辅助内容发布和素材管理，不用于绕过平台限制、规避平台规则或在未人工确认的情况下自动发布内容。请遵守相关平台条款和隐私要求，合理使用。
 
+### Privacy boundary / 隐私边界
+
+The content scripts run on the TikTok, Bilibili, and Xiaohongshu upload pages listed in `manifest.json`'s `host_permissions`. They read the page DOM only to locate the file input, title, description, and tags fields, and to fill them with assets pulled from your own Google Drive folder. This processing happens entirely locally in the browser:
+
+- The extension does not log, transmit, or upload page DOM content, form field values, or file contents to any server other than the Google APIs (`googleapis.com`) needed for Drive access and OAuth.
+- No analytics, telemetry, or error-reporting service is integrated. Nothing about your uploads, drafts, or page content leaves your machine except the Drive/OAuth calls you initiate.
+- If logging or remote reporting is ever added in the future, it must never include page/DOM content, file contents, or field values — only non-content operational signals (e.g. "autofill succeeded/failed"), and this section must be updated to disclose it.
+
+此扩展的内容脚本只在 `manifest.json` 的 `host_permissions` 中列出的 TikTok / Bilibili / 小红书上传页运行。它读取页面 DOM 仅用于定位文件上传框、标题、简介、标签等字段，并把从你自己 Google Drive 文件夹取来的素材填入这些字段。这个处理过程完全在浏览器本地完成：
+
+- 扩展不会把页面 DOM 内容、表单字段值或文件内容记录日志、上传或发送到除 Google API（`googleapis.com`，用于 Drive 访问与 OAuth）以外的任何服务器。
+- 扩展没有接入任何分析、遥测或错误上报服务。除了你主动发起的 Drive/OAuth 请求外，你的上传内容、草稿或页面内容不会离开你的设备。
+- 如果未来加入日志或远程上报功能，绝不能包含页面/DOM 内容、文件内容或字段值，只能包含不涉及内容的操作信号（例如"自动填充成功/失败"），并且必须同步更新本节说明。
+
 ## License / 许可证
 
 This project is licensed under the GNU General Public License v3.0 — see the [LICENSE](LICENSE) file for the full text.
