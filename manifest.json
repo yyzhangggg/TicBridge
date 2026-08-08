@@ -21,7 +21,9 @@
     "https://www.tiktok.com/tiktokstudio/upload*",
     "https://www.tiktok.com/upload*",
     "https://member.bilibili.com/platform/upload*",
-    "https://creator.xiaohongshu.com/publish/publish*"
+    "https://creator.xiaohongshu.com/publish/publish*",
+    "https://creator.xiaohongshu.com/new/home*",
+    "https://creator.douyin.com/creator-micro/home*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -41,6 +43,16 @@
     {
       "matches": ["https://creator.xiaohongshu.com/publish/publish*"],
       "js": ["dist/content-scripts/rednote.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://creator.xiaohongshu.com/new/home*"],
+      "js": ["dist/content-scripts/xiaohongshu-home.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://creator.douyin.com/creator-micro/home*"],
+      "js": ["dist/content-scripts/douyin-home.js"],
       "run_at": "document_idle"
     }
   ],
