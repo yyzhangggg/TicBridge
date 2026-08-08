@@ -4,6 +4,7 @@
 // description like TikTok's caption. Best-effort selectors — verify with
 // 映射字段 in the popup before relying on it.
 import { registerAutofill } from "../lib/autofill-runner.js";
+import { initPopupOverlay } from "../lib/popup-overlay.js";
 
 const DEFAULT_SELECTORS = {
   fileInput: ['input[type="file"]'],
@@ -17,9 +18,11 @@ const DEFAULT_SELECTORS = {
   ]
 };
 
-registerAutofill(["rednote", "scriptureRednote"], DEFAULT_SELECTORS, {
+const autofillApi = registerAutofill(["rednote", "scriptureRednote"], DEFAULT_SELECTORS, {
   buildDescription(entry) {
     const tags = (entry.tags || []).map((t) => (t.startsWith("#") ? t : `#${t}`)).join(" ");
     return [entry.description, tags].filter(Boolean).join("\n\n");
   }
 });
+
+initPopupOverlay("rednote", autofillApi);

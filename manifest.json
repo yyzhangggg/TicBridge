@@ -4,7 +4,6 @@
   "version": "0.1.0",
   "description": "发布排期 + Google Drive 取最新素材 + TikTok/小红书/Bilibili 发布页自动填充",
   "action": {
-    "default_popup": "popup/popup.html",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",

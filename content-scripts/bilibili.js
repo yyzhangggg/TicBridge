@@ -3,6 +3,7 @@
 // those change on every frontend rebuild, placeholder copy is more stable.
 // Still best-effort: verify with 映射字段 in the popup before relying on it.
 import { registerAutofill } from "../lib/autofill-runner.js";
+import { initPopupOverlay } from "../lib/popup-overlay.js";
 
 const DEFAULT_SELECTORS = {
   fileInput: 'input[type="file"]',
@@ -11,8 +12,10 @@ const DEFAULT_SELECTORS = {
   tagInput: 'input[placeholder*="标签"]'
 };
 
-registerAutofill("bilibili", DEFAULT_SELECTORS, {
+const autofillApi = registerAutofill("bilibili", DEFAULT_SELECTORS, {
   buildTags(entry) {
     return (entry.tags || []).map((t) => t.replace(/^#/, ""));
   }
 });
+
+initPopupOverlay("bilibili", autofillApi);

@@ -70,6 +70,17 @@ async function switchGoogleAccount() {
   return loginWithGoogle();
 }
 
+// No action.default_popup is set in manifest.json, so clicking the toolbar icon
+// fires this instead of opening a native popup window. The panel itself lives in
+// a content script already declaratively injected on the three platform pages
+// (see manifest.json's content_scripts) — sendMessage just asks it to toggle. On
+// any other page there's no listener, so this rejects; that's expected and silently
+// ignored rather than treated as an error, since the extension has nothing to show there.
+chrome.action.onClicked.addListener((tab) => {
+  if (!tab?.id) return;
+  chrome.tabs.sendMessage(tab.id, { type: "TOGGLE_POPUP" }).catch(() => {});
+});
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message?.type === "GET_NEWEST_DRIVE_FILE") {
     checkAndRecordStatus(message.platformId).then(sendResponse);
