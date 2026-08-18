@@ -69,6 +69,14 @@ TicBridge 是一个 Chrome 扩展，目标是把内容发布流程自动化：�
 8. Reload the extension, open the popup, and connect Google Drive / 重新加载扩展，打开扩展弹窗，登录 Google 并连接 Drive
 9. Configure a Drive folder link for each publishing target / 为每个平台配置对应的 Google Drive 文件夹链接
 
+### Google Drive OAuth setup / Google Drive OAuth 配置
+
+`oauth2.client_id` identifies the **TicBridge application**, not an individual Chrome or Google user. Every user signs in with their own Google account and only grants access to their own Drive files.
+
+For a private/unpacked build, create a Chrome Extension OAuth client in your own Google Cloud project and bind it to this extension's ID. If you want all copies of this repository to retain one stable extension ID, add the extension's public key as the top-level `key` field in `manifest.json`; this public key is safe to commit. Never commit the corresponding private `.pem` key, access tokens, or refresh tokens.
+
+For a public release, prefer distributing one official Chrome Web Store build under your project OAuth client. The Client ID and public key are public identifiers, but the OAuth project owner is responsible for its consent screen, quota, and requested scopes. An open-source sideloaded fork should use its own OAuth client if you do not want it to share that responsibility.
+
 ## Notes / 说明
 
 - The extension does not directly submit posts; it fills the fields on the publishing page for you to review and publish manually / 扩展不直接自动提交发布内容，仅自动填充上传页面字段，供你人工检查并发布
