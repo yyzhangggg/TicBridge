@@ -1,4 +1,5 @@
-// Bilibili 创作中心投稿页 (member.bilibili.com/platform/upload).
+// Bilibili 创作中心. The in-page panel is available on every creator-center
+// route; only the upload route has fields that can be autofilled.
 // Placeholder-text selectors are used instead of generated class names —
 // those change on every frontend rebuild, placeholder copy is more stable.
 // Still best-effort: verify with 映射字段 in the popup before relying on it.
@@ -18,4 +19,7 @@ const autofillApi = registerAutofill("bilibili", DEFAULT_SELECTORS, {
   }
 });
 
-initPopupOverlay("bilibili", autofillApi);
+if (!globalThis.__ticBridgeBilibiliPanelLoaded) {
+  globalThis.__ticBridgeBilibiliPanelLoaded = true;
+  initPopupOverlay("bilibili", autofillApi);
+}

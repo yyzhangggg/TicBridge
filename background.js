@@ -70,15 +70,48 @@ async function switchGoogleAccount() {
   return loginWithGoogle();
 }
 
-// No action.default_popup is set in manifest.json, so clicking the toolbar icon
-// fires this instead of opening a native popup window. The panel itself lives in
-// a content script already declaratively injected on the three platform pages
-// (see manifest.json's content_scripts) — sendMessage just asks it to toggle. On
-// any other page there's no listener, so this rejects; that's expected and silently
-// ignored rather than treated as an error, since the extension has nothing to show there.
-chrome.action.onClicked.addListener((tab) => {
+// No action.default_popup is set in manifest.json: the UI is a rounded, closable
+// panel rendered inside the creator-center page. Content scripts load
+// declaratively on navigation, while this fallback covers SPA navigations or a
+// tab that was already open when the extension was reloaded.
+function panelScriptForUrl(urlString) {
+  try {
+    const url = new URL(urlString);
+    if (url.hostname === "www.tiktok.com" && (url.pathname.startsWith("/tiktokstudio/") || url.pathname.startsWith("/creator-center/") || url.pathname.startsWith("/upload"))) {
+      return "dist/content-scripts/tiktok.js";
+    }
+    if (url.hostname === "member.bilibili.com") return "dist/content-scripts/bilibili.js";
+    if (url.hostname === "creator.xiaohongshu.com") return "dist/content-scripts/rednote.js";
+    if (url.hostname === "creator.douyin.com") return "dist/content-scripts/douyin-home.js";
+  } catch {
+    // A browser-provided tab may not expose a normal http(s) URL.
+  }
+  return null;
+}
+
+async function toggleInPagePanel(tab) {
   if (!tab?.id) return;
-  chrome.tabs.sendMessage(tab.id, { type: "TOGGLE_POPUP" }).catch(() => {});
+  try {
+    await chrome.tabs.sendMessage(tab.id, { type: "TOGGLE_POPUP" });
+    return;
+  } catch {
+    // Fall through: the page was opened before install/reload, or its SPA route
+    // changed before Chrome's declarative content script could run.
+  }
+
+  const script = panelScriptForUrl(tab.url);
+  if (!script) return;
+  try {
+    await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: [script] });
+    await chrome.tabs.sendMessage(tab.id, { type: "TOGGLE_POPUP" });
+  } catch {
+    // Chrome blocks injection into restricted pages; there is no native popup
+    // fallback by design, so keep the toolbar action a no-op there.
+  }
+}
+
+chrome.action.onClicked.addListener((tab) => {
+  void toggleInPagePanel(tab);
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

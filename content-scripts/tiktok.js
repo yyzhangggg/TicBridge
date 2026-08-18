@@ -1,4 +1,5 @@
-// TikTok Studio upload page (tiktok.com/tiktokstudio/upload).
+// TikTok Studio / Creator Center. The in-page panel is available on every
+// tiktokstudio route; only the upload route has fields that can be autofilled.
 // TikTok has ONE caption box (no separate title field, no separate tag field —
 // hashtags are typed inline into the caption). Best-effort default selectors;
 // if TikTok's markup has moved on, re-point them with 映射字段 in the popup.
@@ -22,4 +23,7 @@ const autofillApi = registerAutofill("tiktok", DEFAULT_SELECTORS, {
   }
 });
 
-initPopupOverlay("tiktok", autofillApi);
+if (!globalThis.__ticBridgeTikTokPanelLoaded) {
+  globalThis.__ticBridgeTikTokPanelLoaded = true;
+  initPopupOverlay("tiktok", autofillApi);
+}

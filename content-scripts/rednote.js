@@ -1,4 +1,5 @@
-// 小红书创作服务平台发布页 (creator.xiaohongshu.com/publish/publish).
+// 小红书创作服务平台. The in-page panel is available on every creator-center
+// route; only the publish route has fields that can be autofilled.
 // RedNote has a title field but tags are typed inline into the body as
 // "#tag" text (there's no separate tag input), so tags get folded into the
 // description like TikTok's caption. Best-effort selectors — verify with
@@ -25,4 +26,7 @@ const autofillApi = registerAutofill(["rednote", "scriptureRednote"], DEFAULT_SE
   }
 });
 
-initPopupOverlay("rednote", autofillApi);
+if (!globalThis.__ticBridgeRednotePanelLoaded) {
+  globalThis.__ticBridgeRednotePanelLoaded = true;
+  initPopupOverlay("rednote", autofillApi);
+}
